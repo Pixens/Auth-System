@@ -144,3 +144,29 @@ class ApplicationFunctions:
                 "message": f"Failed to fetch application info. {str(e).capitalize if '.' in str(e).capitalize else f'{str(e).capitalize}.'}"
             }
 
+    def get_all_apps(self) -> dict:
+        try:
+            apps_info = []
+            for app in self.app_collection.find():
+                apps_info.append(
+                    {
+                        "app_id": str(app["_id"]),
+                        "app_name": app["app_name"]
+                    }
+                )
+
+            return {
+                "success": True,
+                "message": "Successfully fetched all applications.",
+                "data": apps_info
+            }
+        except Exception as e:
+            return {
+                "success": False,
+                "message": f"Failed to fetch applications. {str(e).capitalize if '.' in str(e).capitalize else f'{str(e).capitalize}.'}"
+            }
+
+
+
+
+

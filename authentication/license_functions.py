@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 from datetime import datetime, timedelta
-from utils import Utils
+from authentication.utils import Utils
 
 
 client = MongoClient("localhost", 27017)

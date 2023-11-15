@@ -4,7 +4,7 @@ import binascii
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from datetime import datetime, timedelta
-from utils import Utils
+from authentication.utils import Utils
 
 
 client = MongoClient("localhost", 27017)
