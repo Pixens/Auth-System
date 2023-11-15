@@ -70,7 +70,31 @@ class LicenseFunctions:
                 }
 
     def get_license_info(self, license_key: str) -> dict:
-        pass
+        try:
+            if not self.license_collection.find_one({"_id": {"license_key": license_key}}):
+                return {
+                    "success": False,
+                    "message": "Failed to fetch license information. License does not exist."
+                }
+            else:
+                license_information = self.license_collection.find_one({"_id": {"license_key": license_key}})
+                return {
+                    "success": True,
+                    "message": "Successfully fetched license information.",
+                    "data": {
+                        "license_key": license_information["_id"]["license_key"],
+                        "duration": license_information["duration"],
+                        "app_id": license_information["app_id"],
+                        "expires_on": license_information["expires_on"],
+                        "ip": license_information["ip"],
+                        "note": "Pixens"
+                    }
+                }
+        except Exception as e:
+            return {
+                "success": False,
+                "message": f"Failed to fetch license information. {str(e).capitalize if '.' in str(e).capitalize else f'{str(e).capitalize}.'}"
+            }
 
     def extend_license(self, license_key: str, extension_days: int) -> dict:
         try:

@@ -124,7 +124,7 @@ class Authenticate:
         except Exception as e:
             return {
                 "success": False,
-                "message": f"Failed to validate key. {str(e).capitalize() if '.' in str(e).capitalize() else str(e).capitalize() + '.'}"
+                "message": f"Failed to validate key. {str(e).capitalize if '.' in str(e).capitalize else f'{str(e).capitalize}.'}"
             }
 
 

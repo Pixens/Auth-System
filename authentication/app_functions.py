@@ -50,7 +50,7 @@ class ApplicationFunctions:
         except Exception as e:
             return {
                 "success": False,
-                "message": f"Failed to create application. {str(e).capitalize if '.' in str(e).capitalize else str(e).capitalize + '.'}"
+                "message": f"Failed to create application. {str(e).capitalize if '.' in str(e).capitalize else f'{str(e).capitalize}.'}"
             }
 
     def get_application_info(self, app_name: str) -> dict:
@@ -58,13 +58,13 @@ class ApplicationFunctions:
             if not self.app_collection.find_one({"app_name": app_name}):
                 return {
                     "success": False,
-                    "message": "Failed to fetch application info. Application does not exist."
+                    "message": "Failed to fetch application information. Application does not exist."
                 }
             else:
                 app_info = self.app_collection.find_one({"app_name": app_name})
                 return {
                     "success": True,
-                    "message": "Successfully fetched application info.",
+                    "message": "Successfully fetched application information.",
                     "data": {
                         "app_id": str(app_info['_id']),
                         "app_name": app_info['app_name'],
@@ -78,7 +78,7 @@ class ApplicationFunctions:
         except Exception as e:
             return {
                 "success": False,
-                "message": f"Failed to fetch application info. {str(e).capitalize if '.' in str(e).capitalize else str(e).capitalize + '.'}"
+                "message": f"Failed to fetch application information. {str(e).capitalize if '.' in str(e).capitalize else f'{str(e).capitalize}.'}"
             }
 
     def update_application(self, app_id: str, app_name: str = str(), app_version: str = str(), download_link: str = str(), file_hash: str = str()) -> dict:
@@ -121,7 +121,7 @@ class ApplicationFunctions:
         except Exception as e:
             return {
                 "success": False,
-                "message": f"Failed to update application info. {str(e).capitalize if '.' in str(e).capitalize else str(e).capitalize + '.'}"
+                "message": f"Failed to update application info. {str(e).capitalize if '.' in str(e).capitalize else f'{str(e).capitalize}.'}"
             }
 
     def delete_application(self, app_name: str) -> dict:
@@ -141,6 +141,6 @@ class ApplicationFunctions:
         except Exception as e:
             return {
                 "success": False,
-                "message": f"Failed to fetch application info. {str(e).capitalize if '.' in str(e).capitalize else str(e).capitalize + '.'}"
+                "message": f"Failed to fetch application info. {str(e).capitalize if '.' in str(e).capitalize else f'{str(e).capitalize}.'}"
             }
 
