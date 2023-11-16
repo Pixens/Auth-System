@@ -34,14 +34,16 @@ class Utils:
 
     @staticmethod
     def decrypt_data(encrypted_data, private_key):
-        return rsa.decrypt(binascii.unhexlify(encrypted_data.encode()), private_key).decode()
+        return rsa.decrypt(
+            binascii.unhexlify(
+                encrypted_data.encode()
+            ), private_key
+        ).decode()
 
     @staticmethod
     def validate_license(license_data):
         now = datetime.now()
-        if now > datetime.strptime(license_data['expires_on'], "%d-%m-%Y %H:%M:%S"):
-            return False
-        else:
-            return True
+        return now > datetime.strptime(license_data['expires_on'], "%d-%m-%Y %H:%M:%S")
+
 
 

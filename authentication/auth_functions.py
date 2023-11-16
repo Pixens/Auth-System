@@ -51,7 +51,7 @@ class Authenticate:
         except Exception as e:
             return {
                 "success": False,
-                "message": f"Failed to initialize app. {str(e).capitalize if '.' in str(e).capitalize else f'{str(e).capitalize}.'}"
+                "message": f"Failed to initialize app. {str(e).capitalize() if '.' in str(e).capitalize() else f'{str(e).capitalize()}.'}"
             }
 
     def license_login(self, encrypted_data: dict) -> dict:
@@ -122,7 +122,7 @@ class Authenticate:
         except Exception as e:
             return {
                 "success": False,
-                "message": f"Failed to validate key. {str(e).capitalize if '.' in str(e).capitalize else f'{str(e).capitalize}.'}"
+                "message": f"Failed to validate key. {str(e).capitalize() if '.' in str(e).capitalize() else f'{str(e).capitalize()}.'}"
             }
 
 

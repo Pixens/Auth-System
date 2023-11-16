@@ -93,7 +93,7 @@ class LicenseFunctions:
         except Exception as e:
             return {
                 "success": False,
-                "message": f"Failed to fetch license information. {str(e).capitalize if '.' in str(e).capitalize else f'{str(e).capitalize}.'}"
+                "message": f"Failed to fetch license information. {str(e).capitalize() if '.' in str(e).capitalize() else f'{str(e).capitalize()}.'}"
             }
 
     def extend_license(self, license_key: str, extension_days: int) -> dict:
