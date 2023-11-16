@@ -13,7 +13,7 @@ class LicenseFunctions:
         self.license_collection = database.licenses
         self.app_collection = database.applications
 
-    def create_license(self, app_name: str, key_mask: str, duration: int, note: str = str()) -> dict:
+    def create_license(self, app_name: str, key_mask: str, duration: int, note: str) -> dict:
         try:
             if not self.app_collection.find_one({"app_name": app_name}):
                 return {
@@ -195,10 +195,3 @@ class LicenseFunctions:
                 "message": f"Failed to reset HWIDs. {str(e).capitalize if '.' in str(e).capitalize else str(e).capitalize + '.'}"
             }
 
-
-# LicenseFunctions().create_license(
-#     app_name='Boost Tool',
-#     key_mask='Boostup-XXXXX',
-#     duration=30,
-#     note='Pixens'
-# )

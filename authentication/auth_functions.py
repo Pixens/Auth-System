@@ -13,15 +13,14 @@ database = client.boostupauth
 
 class Authenticate:
 
-    def __init__(self, app_id: str):
+    def __init__(self):
         self.license_collection = database.licenses
         self.app_collection = database.applications
-        self.app_id = app_id
         self.private_key = None
 
-    def initialize_app(self, app_version: str) -> dict:
+    def initialize_app(self, app_id: str, app_version: str) -> dict:
         try:
-            application_data = self.app_collection.find_one({'_id': ObjectId(self.app_id)})
+            application_data = self.app_collection.find_one({'_id': ObjectId(app_id)})
             if not application_data:
                 return {
                     'success': False,
@@ -38,7 +37,7 @@ class Authenticate:
             new_private_key = Utils.load_private_key(application_data['private_secret'])
             if new_private_key:
                 self.private_key = new_private_key
-                signature = binascii.hexlify(rsa.sign(self.app_id.encode(), new_private_key, "SHA-256"))
+                signature = binascii.hexlify(rsa.sign(app_id.encode(), new_private_key, "SHA-256"))
                 return {
                     'success': True,
                     'message': 'Successfully initialized app.',

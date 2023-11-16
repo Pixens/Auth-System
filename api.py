@@ -1,19 +1,34 @@
+import json
+
 from flask import Flask, request, jsonify
+from api_utils import ApiUtils
 from authentication.app_functions import ApplicationFunctions
+from authentication.license_functions import LicenseFunctions
+from authentication.auth_functions import Authenticate
 
 
+users = json.load(open("users.json", "r", encoding="utf-8"))
+ApplicationFunctions = ApplicationFunctions()
+LicenseFunctions = LicenseFunctions()
+Authenticate = Authenticate()
 app = Flask("auth")
 
 
+# ---App Endpoints---
+
 @app.route("/create-app", methods=["POST"])
 def create_app():
-    authorization = request.headers["Authorization"]
+    authorization = request.headers.get("Authorization")
+
+    if not ApiUtils.check_authorization(authorization):
+        return jsonify({"success": False, "message": "Invalid authorization."}), 401
+
     app_payload = request.get_json()
 
     if not app_payload.get("app_name") or not app_payload.get("app_version"):
         return jsonify({"success": False, "message": "Invalid/Insufficient data received."}), 400
 
-    create_app_result = ApplicationFunctions().create_application(
+    create_app_result = ApplicationFunctions.create_application(
         app_name=app_payload["app_name"],
         app_version=app_payload["app_version"]
     )
@@ -23,13 +38,17 @@ def create_app():
 
 @app.route("/app-info", methods=["GET"])
 def app_info():
-    authorization = request.headers["Authorization"]
+    authorization = request.headers.get("Authorization")
+
+    if not ApiUtils.check_authorization(authorization):
+        return jsonify({"success": False, "message": "Invalid authorization."}), 401
+
     app_payload = request.get_json()
 
     if not app_payload.get("app_name"):
         return jsonify({"success": False, "message": "Invalid/Insufficient data received."}), 400
 
-    app_info_result = ApplicationFunctions().get_application_info(
+    app_info_result = ApplicationFunctions.get_application_info(
         app_name=app_payload["app_name"]
     )
 
@@ -38,13 +57,17 @@ def app_info():
 
 @app.route("/update-app/<app_id>", methods=["PATCH"])
 def update_app(app_id):
-    authorization = request.headers["Authorization"]
+    authorization = request.headers.get("Authorization")
+
+    if not ApiUtils.check_authorization(authorization):
+        return jsonify({"success": False, "message": "Invalid authorization."}), 401
+
     app_payload = request.get_json()
 
     if not app_payload:
         return jsonify({"success": False, "message": "No data received."}), 400
 
-    update_app_result = ApplicationFunctions().update_application(
+    update_app_result = ApplicationFunctions.update_application(
         app_id=app_id,
         app_name=app_payload.get("app_name"),
         app_version=app_payload.get("app_version"),
@@ -57,13 +80,17 @@ def update_app(app_id):
 
 @app.route("/delete-app", methods=["DELETE"])
 def delete_app():
-    authorization = request.headers["Authorization"]
+    authorization = request.headers.get("Authorization")
+
+    if not ApiUtils.check_authorization(authorization):
+        return jsonify({"success": False, "message": "Invalid authorization."}), 401
+
     app_payload = request.get_json()
 
     if not app_payload.get("app_name"):
         return jsonify({"success": False, "message": "Invalid/Insufficient data received."}), 400
 
-    delete_app_result = ApplicationFunctions().delete_application(
+    delete_app_result = ApplicationFunctions.delete_application(
         app_name=app_payload["app_name"]
     )
 
@@ -72,8 +99,139 @@ def delete_app():
 
 @app.route("/fetch-apps", methods=["GET"])
 def fetch_apps():
-    authorization = request.headers["Authorization"]
-    pass
+    authorization = request.headers.get("Authorization")
+
+    if not ApiUtils.check_authorization(authorization):
+        return jsonify({"success": False, "message": "Invalid authorization."}), 401
+
+    fetch_apps_result = ApplicationFunctions.get_all_apps()
+
+    return jsonify(fetch_apps_result), 200
+
+
+# ---License Endpoints---
+
+@app.route("/create-license", methods=["POST"])
+def create_license():
+    authorization = request.headers.get("Authorization")
+
+    if not ApiUtils.check_authorization(authorization):
+        return jsonify({"success": False, "message": "Invalid authorization."}), 401
+
+    license_payload = request.get_json()
+
+    if not license_payload.get("app_name") or not license_payload.get("key_mask") or not license_payload.get("duration"):
+        return jsonify({"success": False, "message": "Invalid/Insufficient data received."}), 400
+
+    create_license_result = LicenseFunctions.create_license(
+        app_name=license_payload["app_name"],
+        key_mask=license_payload["key_mask"],
+        duration=int(license_payload["duration"]),
+        note=license_payload["note"] if license_payload.get("note") else ""
+    )
+
+    return jsonify(create_license_result), 200
+
+
+@app.route("/license-info", methods=["GET"])
+def fetch_license():
+    authorization = request.headers.get("Authorization")
+
+    if not ApiUtils.check_authorization(authorization):
+        return jsonify({"success": False, "message": "Invalid authorization."}), 401
+
+    license_payload = request.get_json()
+
+    if not license_payload.get("license_key"):
+        return jsonify({"success": False, "message": "Invalid/Insufficient data received."}), 400
+
+    fetch_license_result = LicenseFunctions.get_license_info(
+        license_key=license_payload["license_key"]
+    )
+
+    return jsonify(fetch_license_result), 200
+
+
+@app.route("/extend-license", methods=["PATCH"])
+def extend_license():
+    authorization = request.headers.get("Authorization")
+
+    if not ApiUtils.check_authorization(authorization):
+        return jsonify({"success": False, "message": "Invalid authorization."}), 401
+
+    license_payload = request.get_json()
+
+    if not license_payload.get("license_key") or not license_payload.get("extension_days"):
+        return jsonify({"success": False, "message": "Invalid/Insufficient data received."}), 400
+
+    extend_license_result = LicenseFunctions.extend_license(
+        license_key=license_payload["license_key"],
+        extension_days=license_payload["extension_days"]
+    )
+
+    return jsonify(extend_license_result), 200
+
+
+@app.route("/delete-license", methods=["DELETE"])
+def delete_license():
+    authorization = request.headers.get("Authorization")
+
+    if not ApiUtils.check_authorization(authorization):
+        return jsonify({"success": False, "message": "Invalid authorization."}), 401
+
+    license_payload = request.get_json()
+
+    if not license_payload.get("license_key"):
+        return jsonify({"success": False, "message": "Invalid/Insufficient data received."}), 400
+
+    delete_license_result = LicenseFunctions.delete_license(
+        license_key=license_payload["license_key"]
+    )
+
+    return jsonify(delete_license_result), 200
+
+
+@app.route("/reset-hwid", methods=["PATCH"])
+def reset_user_hwid():
+    authorization = request.headers.get("Authorization")
+
+    if not ApiUtils.check_authorization(authorization):
+        return jsonify({"success": False, "message": "Invalid authorization."}), 401
+
+    license_payload = request.get_json()
+
+    if not license_payload.get("license_key"):
+        return jsonify({"success": False, "message": "Invalid/Insufficient data received."}), 400
+
+    reset_hwid_result = LicenseFunctions.reset_hwid(
+        license_key=license_payload["license_key"]
+    )
+
+    return jsonify(reset_hwid_result), 200
+
+
+@app.route("/reset-all-hwids", methods=["PATCH"])
+def reset_all_hwids():
+    authorization = request.headers.get("Authorization")
+
+    if not ApiUtils.check_authorization(authorization):
+        return jsonify({"success": False, "message": "Invalid authorization."}), 401
+
+    reset_all_hwids_result = LicenseFunctions.hwid_reset_all()
+
+    return jsonify(reset_all_hwids_result), 200
+
+
+# ---Authentication Endpoints---
+
+@app.route("/initialize-app", methods=["POST"])
+def initialize_app():
+    auth_payload = request.get_json()
+
+    if not auth_payload.get("app_id") or not auth_payload.get("app_version"):
+        return jsonify({"success": False, "message": "Invalid/Insufficient data received."}), 400
+
+
 
 
 app.run(
@@ -81,3 +239,4 @@ app.run(
     port=80,
     debug=True
 )
+
