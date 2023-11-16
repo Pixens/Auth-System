@@ -58,8 +58,7 @@ class Authenticate:
         try:
             data = {}
 
-            for enc_key in encrypted_data:
-                enc_value = encrypted_data[enc_key]
+            for enc_key, enc_value in encrypted_data.items():
                 key = Utils.decrypt_data(enc_key, self.private_key)
                 value = Utils.decrypt_data(enc_value, self.private_key)
 
@@ -69,7 +68,7 @@ class Authenticate:
             if not app_data:
                 return {
                     'success': False,
-                    'message': 'Invalid app ID provided.'
+                    'message': 'Invalid app ID.'
                 }
             if app_data['file_hash'] != data['file_hash']:
                 return {
