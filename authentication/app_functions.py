@@ -165,8 +165,3 @@ class ApplicationFunctions:
                 "success": False,
                 "message": f"Failed to fetch applications. {str(e).capitalize if '.' in str(e).capitalize else f'{str(e).capitalize}.'}"
             }
-
-
-
-
-

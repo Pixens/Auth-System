@@ -7,6 +7,7 @@ app = Flask("auth")
 
 @app.route("/create-app", methods=["POST"])
 def create_app():
+    authorization = request.headers["Authorization"]
     app_payload = request.get_json()
 
     if not app_payload.get("app_name") or not app_payload.get("app_version"):
@@ -22,6 +23,7 @@ def create_app():
 
 @app.route("/app-info", methods=["GET"])
 def app_info():
+    authorization = request.headers["Authorization"]
     app_payload = request.get_json()
 
     if not app_payload.get("app_name"):
@@ -36,6 +38,7 @@ def app_info():
 
 @app.route("/update-app/<app_id>", methods=["PATCH"])
 def update_app(app_id):
+    authorization = request.headers["Authorization"]
     app_payload = request.get_json()
 
     if not app_payload:
@@ -51,6 +54,26 @@ def update_app(app_id):
 
     return jsonify(update_app_result), 200
 
+
+@app.route("/delete-app", methods=["DELETE"])
+def delete_app():
+    authorization = request.headers["Authorization"]
+    app_payload = request.get_json()
+
+    if not app_payload.get("app_name"):
+        return jsonify({"success": False, "message": "Invalid/Insufficient data received."}), 400
+
+    delete_app_result = ApplicationFunctions().delete_application(
+        app_name=app_payload["app_name"]
+    )
+
+    return jsonify(delete_app_result), 200
+
+
+@app.route("/fetch-apps", methods=["GET"])
+def fetch_apps():
+    authorization = request.headers["Authorization"]
+    pass
 
 
 app.run(
