@@ -127,6 +127,7 @@ class Authenticate:
 
 
 
+# Test
 authenticate = Authenticate()
 o = authenticate.initialize_app(app_id='65535a1113facd3ba4d54ea0', app_version='1.0')
 print(o)
