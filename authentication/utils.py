@@ -43,7 +43,7 @@ class Utils:
     @staticmethod
     def validate_license(license_data):
         now = datetime.now()
-        return now < datetime.strptime(license_data['expires_on'], "%d-%m-%Y %H:%M:%S")
+        return now <= datetime.strptime(license_data['expires_on'], "%d-%m-%Y %H:%M:%S")
 
 
 
