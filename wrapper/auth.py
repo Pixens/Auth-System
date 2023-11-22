@@ -122,13 +122,22 @@ class Auth:
                 raise Exception(f'{response.json()["message"]}')
 
 
-auth = Auth(
-    public_secret="LS0tLS1CRUdJTiBSU0EgUFVCTElDIEtFWS0tLS0tCk1JR0pBb0dCQU9oTFRZRzBMc3hubDlzREllbE5XM1ZLTDhlY0RtOG5NVnh2RitvTkJoYjF0dFB5WVZsL0N0NisKeVQ3Q0ozb2czWTR0WDZoMkxGYVdmTHdVMkNYbnNzR2R3aGpDWVhJUWpMMFY5bS9ISTRMRHJXQVVNazFHWnIvQwpwaGlFUUhnZUQzejZlaTdLTG1JbTB6WGNKbUlWaGVqTWg4aGlOTUhxSkt5dUhTa0dsL1dqQWdNQkFBRT0KLS0tLS1FTkQgUlNBIFBVQkxJQyBLRVktLS0tLQo="
-)
+try:
+    auth = Auth(
+        public_secret="LS0tLS1CRUdJTiBSU0EgUFVCTElDIEtFWS0tLS0tCk1JR0pBb0dCQU9oTFRZRzBMc3hubDlzREllbE5XM1ZLTDhlY0RtOG5NVnh2RitvTkJoYjF0dFB5WVZsL0N0NisKeVQ3Q0ozb2czWTR0WDZoMkxGYVdmTHdVMkNYbnNzR2R3aGpDWVhJUWpMMFY5bS9ISTRMRHJXQVVNazFHWnIvQwpwaGlFUUhnZUQzejZlaTdLTG1JbTB6WGNKbUlWaGVqTWg4aGlOTUhxSkt5dUhTa0dsL1dqQWdNQkFBRT0KLS0tLS1FTkQgUlNBIFBVQkxJQyBLRVktLS0tLQo="
+    )
 
-result = auth.license_login(
-    app_id="65535a1113facd3ba4d54ea0",
-    app_version="1.0",
-    license_key="Boostup-63F29"
-)
-print(result)
+    result = auth.license_login(
+        app_id="65535a1113facd3ba4d54ea0",
+        app_version="1.0",
+        license_key="Boostup-63F29"
+    )
+except Exception as e:
+    print(e)
+    result = False
+
+
+if result:
+    print('successful login')
+else:
+    print('failed to login')

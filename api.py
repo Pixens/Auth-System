@@ -40,6 +40,8 @@ def create_app():
         app_version=app_payload["app_version"]
     )
 
+    Logger.info('[+]', '/create-app', {'result': create_app_result["message"]})
+
     return jsonify(create_app_result), 201
 
 
@@ -58,6 +60,8 @@ def app_info():
     app_info_result = ApplicationFunctions.get_application_info(
         app_name=app_payload["app_name"]
     )
+
+    Logger.info('[+]', '/app-info', {'result': app_info_result["message"]})
 
     return jsonify(app_info_result), 200
 
@@ -82,6 +86,8 @@ def update_app(app_id):
         file_hash=app_payload.get("file_hash")
     )
 
+    Logger.info('[+]', f'/update-app/{app_id}', {'result': update_app_result["message"]})
+
     return jsonify(update_app_result), 200
 
 
@@ -101,6 +107,8 @@ def delete_app():
         app_name=app_payload["app_name"]
     )
 
+    Logger.info('[+]', f'/delete-app', {'result': delete_app_result["message"]})
+
     return jsonify(delete_app_result), 200
 
 
@@ -112,6 +120,8 @@ def fetch_apps():
         return jsonify({"success": False, "message": "Invalid authorization."}), 401
 
     fetch_apps_result = ApplicationFunctions.get_all_apps()
+
+    Logger.info('[+]', f'/fetch-apps', {'result': fetch_apps_result["message"]})
 
     return jsonify(fetch_apps_result), 200
 
@@ -137,6 +147,8 @@ def create_license():
         note=license_payload["note"] if license_payload.get("note") else ""
     )
 
+    Logger.info('[+]', f'/create-license', {'result': create_license_result["message"]})
+
     return jsonify(create_license_result), 200
 
 
@@ -155,6 +167,8 @@ def fetch_license():
     fetch_license_result = LicenseFunctions.get_license_info(
         license_key=license_payload["license_key"]
     )
+
+    Logger.info('[+]', f'/fetch-license', {'result': fetch_license_result["message"]})
 
     return jsonify(fetch_license_result), 200
 
@@ -176,6 +190,8 @@ def extend_license():
         extension_days=license_payload["extension_days"]
     )
 
+    Logger.info('[+]', f'/extend-license', {'result': extend_license_result["message"]})
+
     return jsonify(extend_license_result), 200
 
 
@@ -194,6 +210,8 @@ def delete_license():
     delete_license_result = LicenseFunctions.delete_license(
         license_key=license_payload["license_key"]
     )
+
+    Logger.info('[+]', f'/delete-license', {'result': delete_license_result["message"]})
 
     return jsonify(delete_license_result), 200
 
@@ -214,6 +232,8 @@ def reset_user_hwid():
         license_key=license_payload["license_key"]
     )
 
+    Logger.info('[+]', f'/reset-hwid', {'result': reset_hwid_result["message"]})
+
     return jsonify(reset_hwid_result), 200
 
 
@@ -225,6 +245,8 @@ def reset_all_hwids():
         return jsonify({"success": False, "message": "Invalid authorization."}), 401
 
     reset_all_hwids_result = LicenseFunctions.hwid_reset_all()
+
+    Logger.info('[+]', f'/reset-all-hwids', {'result': reset_all_hwids_result["message"]})
 
     return jsonify(reset_all_hwids_result), 200
 
@@ -242,6 +264,8 @@ def license_login():
         encrypted_data=auth_payload["encrypted_dict"]
     )
 
+    Logger.info('[+]', f'/license-login', {'result': result["message"]})
+
     if result.get('message') == 'Invalid/Insufficient data received.':
         return jsonify(result), 400
 
@@ -251,7 +275,6 @@ def license_login():
 Logger.info('[+]', 'Started API on port 80')
 app.run(
     host='0.0.0.0',
-    port=80,
-    debug=True
+    port=80
 )
-
+print()
