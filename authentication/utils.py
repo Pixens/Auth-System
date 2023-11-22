@@ -32,12 +32,6 @@ class Utils:
         return private_key
 
     @staticmethod
-    def load_public_key(public_secret):
-        base64_decoded_key = b64decode(public_secret)
-        public_key = rsa.PublicKey.load_pkcs1(base64_decoded_key)
-        return public_key
-
-    @staticmethod
     def find_private_key(encrypted_data):
         private_key = None
         app = None

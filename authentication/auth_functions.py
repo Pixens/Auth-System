@@ -110,21 +110,3 @@ class Authenticate:
                 "message": f"Failed to validate key. {str(e).capitalize() if '.' in str(e).capitalize() else f'{str(e).capitalize()}.'}"
             }
 
-
-# Test
-
-
-# authenticate = Authenticate()
-#
-# public_key = Utils.load_public_key("LS0tLS1CRUdJTiBSU0EgUFVCTElDIEtFWS0tLS0tCk1JR0pBb0dCQUlGN1RZbEFXYU1tVStlZHBMb0hSaTRoOWc5RWE1NDVrZkNUWldncmMwWGY0MFNldUd5bTJwQUkKYUdVZnBxZG5hS0xUSlpvOEJPUEk5YkVId3NHL1hLSVZITUFDaTVaRmErYVpQSDE3aHNXcVFyemtXTHFuRkZZUgpDOFZ0RWNoSXBKSlRrUmt3UEVVK1dOZWpQb2dHYTNlT1RHTWlONUozVmQ3T3pHQ0IvNVViQWdNQkFBRT0KLS0tLS1FTkQgUlNBIFBVQkxJQyBLRVktLS0tLQo=")
-#
-# ed = {
-#     binascii.hexlify(rsa.encrypt("app_id".encode(), public_key)).decode(): binascii.hexlify(rsa.encrypt("6553bc50086cc1b5b4779851".encode(), public_key)).decode(),
-#     binascii.hexlify(rsa.encrypt("license_key".encode(), public_key)).decode(): binascii.hexlify(rsa.encrypt("Boostup-363A".encode(), public_key)).decode(),
-#     binascii.hexlify(rsa.encrypt("hwid".encode(), public_key)).decode(): binascii.hexlify(rsa.encrypt("eb5ba6d59a5a23e49b7fd0b624d06b3321ec5d00a45001630dcebcad72d2f3ad785759d78cae30960e237f51d4c6ee4e".encode(), public_key)).decode(),
-#     binascii.hexlify(rsa.encrypt("ip".encode(), public_key)).decode(): binascii.hexlify(rsa.encrypt("1.20.0".encode(), public_key)).decode(),
-#     binascii.hexlify(rsa.encrypt("file_hash".encode(), public_key)).decode(): binascii.hexlify(rsa.encrypt("2".encode(), public_key)).decode(),
-#     binascii.hexlify(rsa.encrypt("app_version".encode(), public_key)).decode(): binascii.hexlify(rsa.encrypt("1.0".encode(), public_key)).decode()
-# }
-# re = authenticate.license_login(ed)
-# print(re)

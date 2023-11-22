@@ -1,8 +1,9 @@
 import json
-import time
+import logging
 
 from flask import Flask, request, jsonify
 from api_utils import ApiUtils
+from api_utils import Logger
 from authentication.app_functions import ApplicationFunctions
 from authentication.license_functions import LicenseFunctions
 from authentication.auth_functions import Authenticate
@@ -13,6 +14,9 @@ users = json.load(open("users.json", "r", encoding="utf-8"))
 ApplicationFunctions = ApplicationFunctions()
 LicenseFunctions = LicenseFunctions()
 Auth = Authenticate()
+
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
 
 app = Flask("auth")
 
@@ -244,8 +248,10 @@ def license_login():
     return jsonify(result), 200
 
 
+Logger.info('[+]', 'Started API on port 80')
 app.run(
     host='0.0.0.0',
     port=80,
     debug=True
 )
+
