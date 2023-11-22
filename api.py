@@ -1,4 +1,5 @@
 import json
+import time
 
 from flask import Flask, request, jsonify
 from api_utils import ApiUtils
@@ -8,9 +9,11 @@ from authentication.auth_functions import Authenticate
 
 
 users = json.load(open("users.json", "r", encoding="utf-8"))
+
 ApplicationFunctions = ApplicationFunctions()
 LicenseFunctions = LicenseFunctions()
-Authenticate = Authenticate()
+Auth = Authenticate()
+
 app = Flask("auth")
 
 
@@ -224,14 +227,21 @@ def reset_all_hwids():
 
 # ---Authentication Endpoints---
 
-@app.route("/initialize-app", methods=["POST"])
-def initialize_app():
+@app.route("/license-login", methods=["POST"])
+def license_login():
     auth_payload = request.get_json()
 
-    if not auth_payload.get("app_id") or not auth_payload.get("app_version"):
+    if not auth_payload.get("encrypted_dict"):
         return jsonify({"success": False, "message": "Invalid/Insufficient data received."}), 400
 
+    result = Auth.license_login(
+        encrypted_data=auth_payload["encrypted_dict"]
+    )
 
+    if result.get('message') == 'Invalid/Insufficient data received.':
+        return jsonify(result), 400
+
+    return jsonify(result), 200
 
 
 app.run(
@@ -239,4 +249,3 @@ app.run(
     port=80,
     debug=True
 )
-
