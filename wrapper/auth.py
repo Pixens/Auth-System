@@ -107,7 +107,7 @@ class Auth:
             "encrypted_dict": encrypted_payload
         }
 
-        response = self.session.post('http://127.0.0.1:80/license-login', json=payload)
+        response = self.session.post('https://auth.boostup.cc/license-login', json=payload)
         if response.json()["success"]:
             validity = Utils.validate_signature(license_key, response.json()["signature"], self.public_key)
             if validity:
@@ -122,15 +122,17 @@ class Auth:
                 raise Exception(f'{response.json()["message"]}')
 
 
+license_key = input('License Key: ')
+
 try:
     auth = Auth(
-        public_secret="LS0tLS1CRUdJTiBSU0EgUFVCTElDIEtFWS0tLS0tCk1JR0pBb0dCQU9oTFRZRzBMc3hubDlzREllbE5XM1ZLTDhlY0RtOG5NVnh2RitvTkJoYjF0dFB5WVZsL0N0NisKeVQ3Q0ozb2czWTR0WDZoMkxGYVdmTHdVMkNYbnNzR2R3aGpDWVhJUWpMMFY5bS9ISTRMRHJXQVVNazFHWnIvQwpwaGlFUUhnZUQzejZlaTdLTG1JbTB6WGNKbUlWaGVqTWg4aGlOTUhxSkt5dUhTa0dsL1dqQWdNQkFBRT0KLS0tLS1FTkQgUlNBIFBVQkxJQyBLRVktLS0tLQo="
+        public_secret="LS0tLS1CRUdJTiBSU0EgUFVCTElDIEtFWS0tLS0tCk1JR0pBb0dCQUpjelBRc3FDLzdhQ2ZmYnJXamlEOEdNaFBxWGVkR084UjNSaUJERG1taWZmclhmUmlqSUg2RlcKZkFoQkF1YWp1dGZWa1hhL2t6L2lCdVJ4bldSMjhlcVpxVUxUV1FHM3d4SXp1Zjdyb3REZnQxWWgrWWhJQjE1WgpRUEM5TlAxZGYyMHNKeW1tcWRaS3RnOFdYYzR5d3oyMWY3NDhsNFhDcE84bWZ1UCt6VUdqQWdNQkFBRT0KLS0tLS1FTkQgUlNBIFBVQkxJQyBLRVktLS0tLQo="
     )
 
     result = auth.license_login(
-        app_id="65535a1113facd3ba4d54ea0",
+        app_id="65625414fd061dd70c319a65",
         app_version="1.0",
-        license_key="Boostup-63F29"
+        license_key=license_key
     )
 except Exception as e:
     print(e)
@@ -139,5 +141,5 @@ except Exception as e:
 
 if result:
     print('successful login')
-else:
-    print('failed to login')
+
+#Boostup-efc7c-018E5
