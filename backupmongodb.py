@@ -25,4 +25,5 @@ def create_backup():
 
 while True:
     create_backup()
-    time.sleep(86400)
+    time.sleep(10)
+
