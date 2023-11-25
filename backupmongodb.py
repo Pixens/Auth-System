@@ -10,7 +10,7 @@ def create_backup():
     backup_dir = './backups'  # Change this to your desired backup directory
 
     # Generate timestamp for backup file
-    timestamp = datetime.datetime.now().strftime('%d-%m-%Y_%H-%M-%S')
+    timestamp = datetime.datetime.now().strftime('%d-%m-%Y')
     backup_file = f'{db_name}_backup_{timestamp}'
 
     # Run mongodump command
