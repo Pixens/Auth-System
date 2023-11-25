@@ -4,10 +4,10 @@ import time
 
 
 def create_backup():
-    mongo_host = 'localhost'  # Change this to your MongoDB host
+    mongo_host = '0.0.0.0'  # Change this to your MongoDB host
     mongo_port = '27017'  # Change this to your MongoDB port
     db_name = 'boostupauth'  # Change this to your database name
-    backup_dir = '/backups'  # Change this to your desired backup directory
+    backup_dir = 'backups'  # Change this to your desired backup directory
 
     # Generate timestamp for backup file
     timestamp = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
