@@ -101,6 +101,7 @@ class Auth:
             "ip": Utils.get_ip(),
             "file_hash": Utils.get_file_hash()
         }
+
         encrypted_payload = Utils.encrypt_dict(payload, self.public_key)
 
         payload = {
@@ -126,11 +127,11 @@ license_key = input('License Key: ')
 
 try:
     auth = Auth(
-        public_secret="LS0tLS1CRUdJTiBSU0EgUFVCTElDIEtFWS0tLS0tCk1JR0pBb0dCQUpjelBRc3FDLzdhQ2ZmYnJXamlEOEdNaFBxWGVkR084UjNSaUJERG1taWZmclhmUmlqSUg2RlcKZkFoQkF1YWp1dGZWa1hhL2t6L2lCdVJ4bldSMjhlcVpxVUxUV1FHM3d4SXp1Zjdyb3REZnQxWWgrWWhJQjE1WgpRUEM5TlAxZGYyMHNKeW1tcWRaS3RnOFdYYzR5d3oyMWY3NDhsNFhDcE84bWZ1UCt6VUdqQWdNQkFBRT0KLS0tLS1FTkQgUlNBIFBVQkxJQyBLRVktLS0tLQo="
+        public_secret="LS0tLS1CRUdJTiBSU0EgUFVCTElDIEtFWS0tLS0tCk1JR0pBb0dCQUtmaDd1Qyt4NWtUL3NwUVVNeEpQN2l6dXpURER0dzdSZlNwMjBRMENIamtVVWhuN3hqeWdyZXUKWmVteFRLZ2E3K1Ywc25HaWZKVzBUbVBkQjVFTWZwVEFWaFZNOW51T3YydHIwN1ZRYk1DN0ZHNW5hY1F1bG5tNQpCK1poVTNiMUh3ZktMVXA5QmVKa0xIZGszZVQ4Z1U3ZDFBTmt6Z2tBOE12Mm1yZk1ZQ3V4QWdNQkFBRT0KLS0tLS1FTkQgUlNBIFBVQkxJQyBLRVktLS0tLQo="
     )
 
     result = auth.license_login(
-        app_id="65625414fd061dd70c319a65",
+        app_id="65645afb0fb080a592b3a035",
         app_version="1.0",
         license_key=license_key
     )
@@ -142,4 +143,4 @@ except Exception as e:
 if result:
     print('successful login')
 
-#Boostup-efc7c-018E5
+#Boostup-bBA2D-4CeAa

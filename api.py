@@ -128,6 +128,27 @@ def fetch_apps():
 
 # ---License Endpoints---
 
+@app.route("/create-sellix-license", methods=["GET"])
+def sellix_create_license():
+    app_name = request.args.get('app')
+    license_duration = request.args.get('duration')
+    note = request.args.get('note')
+
+    if not app_name or not license_duration or not note:
+        return "Insufficient data passed.", 200
+
+    create_license_result = LicenseFunctions.create_license(
+        app_name=app_name,
+        key_mask='Boostup-XXXXX-XXXXX',
+        duration=int(license_duration),
+        note=note
+    )
+
+    Logger.info('[+]', '/create-sellix-license', {'result': create_license_result["message"]})
+
+    return create_license_result["data"]["license_key"] if create_license_result["success"] else create_license_result["message"], 200
+
+
 @app.route("/create-license", methods=["POST"])
 def create_license():
     authorization = request.headers.get("Authorization")
