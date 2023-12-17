@@ -129,7 +129,7 @@ def fetch_apps():
 
 # ---License Endpoints---
 
-@app.route("/create-sellix-license", methods=["GET"])
+@app.route("/create-sellix-license", methods=["GET", "POST"])
 def sellix_create_license():
     auth_token = request.args.get('token')
     if auth_token != sellix_auth_token:
