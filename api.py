@@ -10,6 +10,7 @@ from authentication.auth_functions import Authenticate
 
 
 users = json.load(open("users.json", "r", encoding="utf-8"))
+sellix_auth_token = "cc67655a195a5f49b3d63fda38f9781b"
 
 ApplicationFunctions = ApplicationFunctions()
 LicenseFunctions = LicenseFunctions()
@@ -130,6 +131,10 @@ def fetch_apps():
 
 @app.route("/create-sellix-license", methods=["GET"])
 def sellix_create_license():
+    auth_token = request.args.get('token')
+    if auth_token != sellix_auth_token:
+        return "Invalid authorization.", 200
+
     app_name = request.args.get('app')
     license_duration = request.args.get('duration')
     note = request.args.get('note')
