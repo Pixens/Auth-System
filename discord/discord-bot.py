@@ -40,6 +40,32 @@ error_color = "0xf06156"
 
 @bot.slash_command(
     guild_ids=config["guild_ids"],
+    name="whitelist-user",
+    description="Whitelist a user in order to use the bot."
+)
+async def whitelist_user(
+        ctx,
+        user: discord.Option(discord.Member, "Member you want to whitelist", required=True)
+):
+    if str(ctx.author.id) not in whitelisted:
+        embed = discord.Embed(
+            title="Failed to whitelist user",
+            description=f"``⛔`` You are not permitted to execute this command.",
+            color=int(error_color, 16)
+        )
+        embed.set_footer(text="Boostup Auth Manager")
+
+        await ctx.respond(embed=embed, ephemeral=True)
+    else:
+        with open("./whitelist.txt", "a") as f:
+            f.write("\n" + str(user.id))
+
+        await ctx.respond(embed=discord.Embed(title="Successfully whitelisted user", description=f"``🤖`` User: {user.name}", color=int(normal_color, 16)), ephemeral=True)
+        os.execv(sys.executable, ['python3'] + sys.argv)
+
+
+@bot.slash_command(
+    guild_ids=config["guild_ids"],
     name="reset-hwid",
     description="Resets hardware ID linked to a license key in order to use on another device."
 )
