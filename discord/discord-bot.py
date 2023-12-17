@@ -113,7 +113,8 @@ async def generate_license(
         ctx,
         application: discord.Option(str, "Application for which the key is to be generated.", choices=app_names, required=True),
         duration: discord.Option(str, "Duration of the license.", choices=['Lifetime', '1 Year', '1 Month', '1 Week', '1 Day', '1 Hour'], required=True),
-        note: discord.Option(str, "Note you want to put for the license key.", required=False)
+        key_mask: discord.Option(str, "Mask of the key you want to generate.") = "Boostup-XXXXX-XXXXX",
+        note: discord.Option(str, "Note you want to put for the license key.", required=False) = str()
 ):
     if str(ctx.author.id) not in whitelisted:
         embed = discord.Embed(
@@ -129,7 +130,7 @@ async def generate_license(
         payload = {
             "app_name": application,
             "duration": duration_map[duration],
-            "key_mask": "Boostup-XXXXX-XXXXX",
+            "key_mask": key_mask,
             "note": note if note else ""
         }
         response = requests.post("https://auth.boostup.cc/create-license", json=payload, headers=headers)
