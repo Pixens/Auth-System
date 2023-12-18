@@ -87,7 +87,7 @@ class LicenseFunctions:
                         "app_id": license_information["app_id"],
                         "expires_on": license_information["expires_on"],
                         "ip": license_information["ip"],
-                        "note": "Pixens"
+                        "note": license_information["note"]
                     }
                 }
         except Exception as e:
