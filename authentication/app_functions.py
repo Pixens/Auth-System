@@ -13,6 +13,7 @@ class ApplicationFunctions:
 
     def __init__(self):
         self.app_collection = database.applications
+        self.license_collection = database.licenses
 
     def create_application(self, app_name: str, app_version: str) -> dict:
         try:
@@ -132,6 +133,8 @@ class ApplicationFunctions:
                     "message": "Failed to delete application. Application does not exist."
                 }
             else:
+                app_id = str(self.app_collection.find_one({"app_name": app_name})["_id"])
+                self.license_collection.delete_many({"app_id": app_id})
                 result = self.app_collection.delete_one({'app_name': app_name})
                 return {
                     "success": result.acknowledged,

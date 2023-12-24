@@ -468,7 +468,7 @@ async def delete_app(
             color=int(normal_color, 16) if response.json()["success"] else int(error_color, 16)
         )
 
-        ctx.respond(embed=embed, ephemeral=True)
+        await ctx.respond(embed=embed, ephemeral=True)
 
 
 Logger.info("<+>", "Successfully started bot.")
