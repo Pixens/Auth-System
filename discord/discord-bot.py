@@ -352,7 +352,7 @@ async def fetch_app(
         payload = {
             "app_name": application
         }
-        response = requests.get("https://auth.boostup.cc//app-info", headers=headers, json=payload)
+        response = requests.get("https://auth.boostup.cc/app-info", headers=headers, json=payload)
         if response.json()["success"]:
             embed = discord.Embed(
                 title="Successfully fetched app",

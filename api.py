@@ -169,7 +169,7 @@ def create_license():
     create_license_result = LicenseFunctions.create_license(
         app_name=license_payload["app_name"],
         key_mask=license_payload["key_mask"],
-        duration=int(license_payload["duration"]),
+        duration=float(license_payload["duration"]),
         note=license_payload["note"] if license_payload.get("note") else ""
     )
 

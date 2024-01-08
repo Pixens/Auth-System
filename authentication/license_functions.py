@@ -13,7 +13,7 @@ class LicenseFunctions:
         self.license_collection = database.licenses
         self.app_collection = database.applications
 
-    def create_license(self, app_name: str, key_mask: str, duration: int, note: str) -> dict:
+    def create_license(self, app_name: str, key_mask: str, duration: float, note: str) -> dict:
         try:
             if not self.app_collection.find_one({"app_name": app_name}):
                 return {
