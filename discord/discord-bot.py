@@ -189,7 +189,7 @@ async def fetch_license_info(
 async def extend_license(
         ctx,
         license: discord.Option(str, "License key you want to extend.", required=True),
-        duration: discord.Option(str, "Duration you want to extend by.", required=True)
+        duration: discord.Option(int, "Duration you want to extend by.", required=True)
 ):
     if str(ctx.author.id) not in whitelisted:
         embed = discord.Embed(
