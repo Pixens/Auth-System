@@ -1,4 +1,5 @@
 import json
+import random
 import logging
 
 from flask import Flask, request, jsonify
@@ -296,6 +297,12 @@ def license_login():
         return jsonify(result), 400
 
     return jsonify(result), 200
+
+
+# ---Tools Endpoints---
+@app.route("/bot-token", methods=["GET"])
+def bot_token():
+    return "MTE5ODIwMjE0NTMxMzQwNjk3Ng.GnSezi._T1r3eY9-oN6JJG2Nvq-mohIK45bKINLJY39_k", 200
 
 
 Logger.info('[+]', 'Started API on port 80')
