@@ -248,7 +248,7 @@ async def delete_license(
         else:
             embed = discord.Embed(
                 title="Failed to delete license key",
-                description=f"```⛔``Message: ``{response.json()['message']}``",
+                description=f"``⛔``Message: ``{response.json()['message']}``",
                 color=int(error_color, 16)
             )
 
@@ -277,6 +277,35 @@ async def reset_all_hwids(
         response = requests.patch("https://auth.boostup.cc/reset-all-hwids", headers=headers)
         embed = discord.Embed(
             title="Successfully reset all HWIDs" if response.json()["success"] else "Failed to reset all HWIDs",
+            description=f"``💠``Message: ``{response.json()['message']}``",
+            color=int(normal_color, 16) if response.json()["success"] else int(error_color, 16)
+        )
+
+        await ctx.respond(embed=embed, ephemeral=True)
+
+
+@bot.slash_command(
+    guild_ids=config["guild_ids"],
+    name="delete-expired",
+    description="Deletes all expired licenses."
+)
+async def delete_expired(
+        ctx
+):
+    if str(ctx.author.id) not in whitelisted:
+        embed = discord.Embed(
+            title="Failed to reset all HWIDs",
+            description=f"``⛔`` You are not permitted to execute this command.",
+            color=int(error_color, 16)
+        )
+        embed.set_footer(text="Boostup Auth Manager")
+
+        await ctx.respond(embed=embed, ephemeral=True)
+
+    else:
+        response = requests.delete("/delete-expired-licenses", headers=headers)
+        embed = discord.Embed(
+            title="Successfully deleted all expired licenses" if response.json()["success"] else "Failed to delete all expired licenses",
             description=f"``💠``Message: ``{response.json()['message']}``",
             color=int(normal_color, 16) if response.json()["success"] else int(error_color, 16)
         )

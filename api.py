@@ -278,6 +278,19 @@ def reset_all_hwids():
     return jsonify(reset_all_hwids_result), 200
 
 
+@app.route("/delete-expired-licenses", methods=["DELETE"])
+def delete_expired_licenses():
+    authorization = request.headers.get("Authorization")
+    if not ApiUtils.check_authorization(authorization):
+        return jsonify({"success": False, "message": "Invalid authorization."}), 401
+
+    delete_expired_licenses_result = LicenseFunctions.delete_expired()
+    Logger.info('[+]', f'/delete-expired-licenses', {'result': delete_expired_licenses_result["message"]})
+
+    return jsonify(delete_expired_licenses_result), 200
+
+
+
 # ---Authentication Endpoints---
 
 @app.route("/license-login", methods=["POST"])
@@ -298,11 +311,6 @@ def license_login():
 
     return jsonify(result), 200
 
-
-# ---Tools Endpoints---
-@app.route("/bot-token", methods=["GET"])
-def bot_token():
-    return "MTE5ODIwMjE0NTMxMzQwNjk3Ng.GnSezi._T1r3eY9-oN6JJG2Nvq-mohIK45bKINLJY39_k", 200
 
 
 Logger.info('[+]', 'Started API on port 80')

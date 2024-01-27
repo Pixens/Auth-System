@@ -195,3 +195,23 @@ class LicenseFunctions:
                 "message": f"Failed to reset HWIDs. {str(e).capitalize if '.' in str(e).capitalize else str(e).capitalize + '.'}"
             }
 
+    def delete_expired(self):
+        try:
+            for license_data in self.license_collection.find():
+                if license_data["expires_on"]:
+                    if not Utils.validate_license(license_data):
+                        self.license_collection.delete_one({"_id": {"license_key": license_data["_id"]["license_key"]}})
+                    else:
+                        continue
+                else:
+                    continue
+
+            return {
+                "success": True,
+                "message": "Successfully deleted expired licenses."
+            }
+        except Exception as e:
+            return {
+                "success": False,
+                "message": f"Failed to delete expired licenses. {str(e).capitalize if '.' in str(e).capitalize else str(e).capitalize + '.'}"
+            }
