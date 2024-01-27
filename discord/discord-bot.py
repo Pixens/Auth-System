@@ -303,7 +303,7 @@ async def delete_expired(
         await ctx.respond(embed=embed, ephemeral=True)
 
     else:
-        response = requests.delete("/delete-expired-licenses", headers=headers)
+        response = requests.delete("https://auth.boostup.cc/delete-expired-licenses", headers=headers)
         embed = discord.Embed(
             title="Successfully deleted all expired licenses" if response.json()["success"] else "Failed to delete all expired licenses",
             description=f"``💠``Message: ``{response.json()['message']}``",
