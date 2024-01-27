@@ -200,7 +200,7 @@ class LicenseFunctions:
             for license_data in self.license_collection.find():
                 if license_data["expires_on"]:
                     if not Utils.validate_license(license_data):
-                        self.license_collection.delete_one({"_id": {"license_key": license_data["_id"]["license_key"]}})
+                        print(self.license_collection.delete_one({"_id": {"license_key": license_data["_id"]["license_key"]}}))
                     else:
                         continue
                 else:
