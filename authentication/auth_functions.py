@@ -28,7 +28,6 @@ class Authenticate:
                 }
 
             data = decryption_result["data"]
-            print(data)
             if not data.get('app_id') or not data.get('license_key') or not data.get('hwid') or not data.get('ip') or not data.get('file_hash') or not data.get('app_version'):
                 return {
                     'success': False,
