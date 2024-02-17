@@ -28,7 +28,7 @@ duration_map = {
     "1 Month": 30,
     "1 Week": 7,
     "1 Day": 1,
-    "1 Hour": 0.42
+    "1 Hour": 0.041667
 }
 
 normal_color = "0x5780fc"
@@ -114,7 +114,8 @@ async def generate_license(
         application: discord.Option(str, "Application for which the key is to be generated.", choices=app_names, required=True),
         duration: discord.Option(str, "Duration of the license.", choices=['Lifetime', '1 Year', '1 Month', '1 Week', '1 Day', '1 Hour'], required=True),
         key_mask: discord.Option(str, "Mask of the key you want to generate.") = "Boostup-XXXXX-XXXXX",
-        note: discord.Option(str, "Note you want to put for the license key.", required=False) = str()
+        note: discord.Option(str, "Note you want to put for the license key.", required=False) = str(),
+        ephemeral: discord.Option(bool, "Whether the response should be ephemeral or not.", required=False) = True
 ):
     if str(ctx.author.id) not in whitelisted:
         embed = discord.Embed(
@@ -140,7 +141,7 @@ async def generate_license(
             color=int(normal_color, 16) if response.json()["success"] else int(error_color, 16)
         )
         embed.set_footer(text="Boostup Auth Manager")
-        await ctx.respond(embed=embed, ephemeral=True)
+        await ctx.respond(embed=embed, ephemeral=ephemeral)
 
 
 @bot.slash_command(
