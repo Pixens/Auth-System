@@ -1,5 +1,7 @@
 import json
 import random
+import hmac
+import hashlib
 import logging
 
 from flask import Flask, request, jsonify
@@ -12,6 +14,7 @@ from authentication.auth_functions import Authenticate
 
 users = json.load(open("users.json", "r", encoding="utf-8"))
 sellix_auth_token = "cc67655a195a5f49b3d63fda38f9781b"
+webhook_secret = b"AINzGXjTwAESKJSr2Qqu8yBcMmgeg1IC"
 
 ApplicationFunctions = ApplicationFunctions()
 LicenseFunctions = LicenseFunctions()
@@ -134,12 +137,19 @@ def fetch_apps():
 def sellix_create_license():
     auth_token = request.args.get('token')
     if auth_token != sellix_auth_token:
-        return "Invalid authorization.", 200
+        return "Invalid authorization.", 401
 
+    signature = request.headers.get('X-Sellix-Signature')
+    if not signature:
+        return "Invalid authorization.", 401
+
+    payload = request.get_data()
+    computed_signature = hmac.new(webhook_secret, payload, hashlib.sha512).hexdigest()
+    if not hmac.compare_digest(signature, computed_signature):
+        return "Invalid authorization.", 401
     app_name = request.args.get('app')
     license_duration = request.args.get('duration')
-    note = request.args.get('note')
-
+    note = request.json["data"]["uniqid"]
     if not app_name or not license_duration or not note:
         return "Insufficient data passed.", 200
 
@@ -315,7 +325,6 @@ def license_login():
 
 Logger.info('[+]', 'Started API on port 80')
 app.run(
-    host='0.0.0.0',
     port=80
 )
 print()
