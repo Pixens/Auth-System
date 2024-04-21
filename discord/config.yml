@@ -1,8 +1,8 @@
 # ---Bot Settings---
 bot_token: 'MTIxOTM0MzM5NTc4OTYwMjkxNw.GNFnR3._149KVZiGivbNRwKsTeoRJsWtFY9sn52UIu8xY'
 bot_status: 'boostup.cc'
-guild_ids: [1212733196467441734]
+guild_ids: [1230970229895729162]
 
 
 # ---Logs---
-hwid_reset_logs_channel: 1213049446070353921
+hwid_reset_logs_channel: 1231215370791292979
