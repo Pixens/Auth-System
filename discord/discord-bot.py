@@ -12,7 +12,7 @@ whitelisted = open("whitelist.txt", "r").read().splitlines()
 activity = discord.Activity(type=discord.ActivityType.listening, name=config['bot_status'])
 bot = discord.Bot(command_prefix="*", activity=activity, status=discord.Status.online)
 headers = {
-    "Authorization": "ewogICAgInVzZXJuYW1lIjogIlBpeGVucyIsCiAgICAicm9sZSI6ICJPd25lciIsCiAgICAiYXV0aG9yaXphdGlvbl90b2tlbiI6ICIyNDdhNGEyMDU5N2JkOWFiNzEzMTgxMTExYjE0MDYxNDcyYzQwMmI2MTVhMTc1M2ZlZjdkMTAyOWEyYzQxYTIxIgogIH0="
+    "Authorization": ""
 }
 apps_request = requests.get("https://auth.boostup.cc/fetch-apps", headers=headers)
 if apps_request.json()["success"]:
