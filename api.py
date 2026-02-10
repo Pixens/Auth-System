@@ -13,8 +13,8 @@ from authentication.auth_functions import Authenticate
 
 
 users = json.load(open("users.json", "r", encoding="utf-8"))
-sellix_auth_token = "cc67655a195a5f49b3d63fda38f9781b"
-webhook_secret = b"AINzGXjTwAESKJSr2Qqu8yBcMmgeg1IC"
+sellix_auth_token = ""
+webhook_secret = b""
 
 ApplicationFunctions = ApplicationFunctions()
 LicenseFunctions = LicenseFunctions()
